@@ -55,7 +55,8 @@ rm -rf ~/.var/app/com.spotify.Client/cache
 
 rm -rf ~/.var/app/com.discordapp.Discord/cache/*
 rm -rf ~/.var/app/com.discordapp.Discord/cache
-
+rm -rf ~/.local/share/Trash/files/*
+rm -rf ~/.local/share/Trash/info/*
 # Save disk and cache size after
 disk_after=$(get_disk_free_space)
 cache_after=$(get_cache_size)
