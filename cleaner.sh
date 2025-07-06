@@ -11,7 +11,11 @@ NC='\033[0m' # No Color
 
 # Function to get total disk free space
 get_disk_free_space() {
-    df -h ~ | awk 'NR==2 {print $4}'
+    df -h ~ | awk 'NR==2 {print $4} '
+}
+
+get_disk_used_space() {
+    df -h ~ | awk 'NR==2 {print $5} '
 }
 
 # Function to get total cache size
@@ -35,29 +39,38 @@ EOF
 echo -e "${NC}"
 
 # Save disk and cache size before
+disk_used=$(get_disk_used_space)
 disk_before=$(get_disk_free_space)
 cache_before=$(get_cache_size)
 
 
-echo -e "${RED}✔ Storage before : ${NC}$disk_before ${RED}free ${BLUE}"
+echo -e "${RED}✔ Free storage before : ${NC}$disk_before, ${RED}($disk_used used) ${BLUE}"
 
 rm -rf ~/.cache/BraveSoftware
 rm -rf ~/.var/app/com.brave.Browser/cache
+rm -rf ~/.var/app/org.mozilla.Thunderbird/cache
 
 rm -rf ~/.config/Code/Cache
 rm -rf ~/.config/Code/CachedData
 rm -rf ~/.config/Code/User/workspaceStorage
 rm -rf ~/.config/Code/Service\ Worker/CacheStorage
 rm -rf ~/.var/app/com.visualstudio.code/cache
+rm -rf ~/.var/app/com.google.Chrome/cache
+rm -rf ~/.var/app/com.google.Chrome/config/google-chrome/Default/Service\ Worker/CacheStorage
+rm -rf ~/.var/app/com.google.Chrome/config/google-chrome/BrowserMetrics
+rm -rf ~/.var/app/com.google.Chrome/config/google-chrome/Default/Service\ Worker/ScriptCache
+rm -rf ~/.var/app/com.vscodium.codium/config/VSodium/Cache
 
 rm -rf ~/.cache/spotify
 rm -rf ~/.var/app/com.spotify.Client/cache
 
-rm -rf ~/.var/app/com.discordapp.Discord/cache/*
+rm -rf ~/.var/app/com.discordapp.Discord/config/discord/Cache
 rm -rf ~/.var/app/com.discordapp.Discord/cache
+
 rm -rf ~/.local/share/Trash/files/*
 rm -rf ~/.local/share/Trash/info/*
-# Save disk and cache size after
+# Save disk and cache size afte
+disk_used=$(get_disk_used_space)
 disk_after=$(get_disk_free_space)
 cache_after=$(get_cache_size)
 
@@ -65,4 +78,4 @@ cache_after=$(get_cache_size)
 cache_cleared=$((cache_before - cache_after))
 cache_cleared_mb=$(echo "scale=2; $cache_cleared/1024/1024" | bc)
 
-echo -e "${GREEN}✔ Storage after  : ${NC}$disk_after ${GREEN}free ${BLUE}"
+echo -e "${GREEN}✔ Free storage after  : ${NC}$disk_after, ${GREEN}($disk_used used) ${BLUE}"
