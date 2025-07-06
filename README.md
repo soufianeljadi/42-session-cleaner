@@ -2,14 +2,12 @@
 
 *A Ben 10-themed bash script to clean system cache/files—because even heroes need to declutter!*  
 
-![Ben 10 ASCII Art](https://i.imgur.com/JR8yYQp.png) *(Example screenshot of the Omnitrix ASCII art)*  
-
----
+![Ben 10 ASCII Art](https://github.com/user-attachments/assets/eaa9f368-360b-4d47-a661-54f4b2774514) 
 
 ## 🌟 Features
 
 - **Omnitrix-themed UI**  
-  - Green/black terminal colors (like Ben's iconic watch)  
+  - Green/black terminal colors
   - Interactive ASCII art animations  
 
 - **Alien-Powered Cleaning**  
@@ -27,10 +25,10 @@
 
 ```bash
 # Download the script
-curl -o ben10_cleaner.sh https://raw.githubusercontent.com/yourusername/omnitrix-disk-cleaner/main/ben10_cleaner.sh
+git clone https://github.com/soufianeljadi/42-session-cleaner
 
 # Make it executable
-chmod +x ben10_cleaner.sh
+chmod +x cleaner.sh
 
 # Run it (sudo optional)
-./ben10_cleaner.sh
+./cleaner.sh
