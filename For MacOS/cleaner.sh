@@ -22,7 +22,34 @@ EOF
 echo -e "${NC}"
 
 sleep 2
+#!/bin/bash
 
+# Get console session info
+session_info=$(who | grep "console" | head -1)
+
+if [ -z "$session_info" ]; then
+    echo "0h 0m"
+    exit 0
+fi
+
+# Parse: "sel-jadi console  Aug 24 10:58"
+month=$(echo "$session_info" | awk '{print $3}')
+day=$(echo "$session_info" | awk '{print $4}')
+time_str=$(echo "$session_info" | awk '{print $5}')
+year=$(date +%Y)
+
+# Convert to epoch
+session_start=$(date -j -f "%b %d %H:%M %Y" "$month $day $time_str $year" "+%s")
+
+# Calculate
+current_time=$(date +%s)
+total_seconds=$((current_time - session_start))
+idle_seconds=$(ioreg -c IOHIDSystem | awk '/HIDIdleTime/ {print int($NF/1000000000); exit}')
+active_seconds=$((total_seconds - idle_seconds))
+[ $active_seconds -lt 0 ] && active_seconds=0
+
+# Output active time only
+echo -e "${CYAN}logged about : ${NC} $((active_seconds / 3600))h $(( (active_seconds % 3600) / 60 ))m \n"
 #update
 if [ "$1" == "update" ];
 then
